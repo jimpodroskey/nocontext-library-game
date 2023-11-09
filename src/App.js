@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocalStorage } from "@uidotdev/usehooks";
+import { books, initialPeople } from "./DataManager";
 
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
@@ -13,6 +15,8 @@ import Table from "react-bootstrap/Table";
 import "./App.css";
 import { PersonSearch } from "./PersonSearch";
 import { CheckedOutBookList } from "./CheckedOutBookList";
+
+
 
 function PassportVerification({ person }) {
   return <>This is the form</>;
@@ -120,24 +124,6 @@ function SignIn({ person }) {
   );
 }
 
-const books = [
-  {
-    title: "The Lord of the Rings: The Fellowship of the Ring",
-    id: 1,
-    author: "J.R.R Tolkein"
-  },
-  {
-    title: "Animal Farm",
-    id: 2,
-    author: "George Orwell"
-  },
-  {
-    title: "One Fish, Two Fish, Red Fish, Blue Fish",
-    id: 3,
-    author: "Dr Seuss"
-  }
-];
-
 function PersonDisplay({ person }) {
   if (!person) {
     return null;
@@ -215,45 +201,8 @@ function CheckOut({ person }) {
   );
 }
 
-const initialPeople = [
-  {
-    name: "Caroline Ciliberti",
-    image: "images/caroline.png",
-    text: "Mom is the best person around",
-    libraryCardId: "4618",
-    books: []
-  },
-  {
-    name: "Jim Podroskey",
-    image: "images/jim.png",
-    text: "Dad has a stinky butt",
-    libraryCardId: "1565",
-    books: []
-  },
-  {
-    name: "Lily Dog",
-    image: "images/lily.png",
-    text: "I'll just go pee in the guest room",
-    libraryCardId: "8740",
-    books: []
-  },
-  {
-    name: "Anna Podroskey",
-    image: "images/anna.png",
-    text: "Anna is the very best kid",
-    libraryCardId: "9383",
-    signedIn: true,
-    books: [
-      {
-        title: "The Hobbit",
-        overdue: true
-      },
-      {
-        title: "Ivy and Bean: Doomed to Dance"
-      }
-    ]
-  }
-];
+
+
 
 const fuzzySearch = (array, key, value) => {
   return array.filter((obj) => {
@@ -266,7 +215,20 @@ function App() {
   const [people, setPeople] = useState(initialPeople);
   const [person, setPerson] = useState();
 
-  function handleShowAll() {}
+  useEffect(() => {
+    initializeLocalStorage();
+//    retrieveData();
+  }, []);
+
+  const initializeLocalStorage = () => {
+    const storedData = JSON.parse(localStorage.getItem('books'));
+
+    // If no data is stored, initialize with default data
+    if (!storedData) {
+      localStorage.setItem('books', JSON.stringify(books));
+    }
+  };
+
 
   function findPerson(searchValue) {
     setPerson(null);
