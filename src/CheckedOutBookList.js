@@ -3,29 +3,28 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Alert from "react-bootstrap/Alert";
 import Table from "react-bootstrap/Table";
-import { getBookById } from "./DataManager";
 
-export function CheckedOutBookList({ person }) {
+export function CheckedOutBookList({ person, books, dataFunctions}) {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const returnBook = (person, book) => {
-        console.log(person.name);
-
-        handleClose();
+        dataFunctions.removeBook(book.id);
     };
 
     const rows = [];
 
-    person.bookReferences.forEach((bookReference) => {
-        const book = getBookById(bookReference.bookId);
-        const overdue = bookReference.overdue ? (
+    const personBookReferences = books.filter(reference => reference.checkedOutByPersonId == person.id);
+
+    personBookReferences.
+    forEach((book) => {
+        const overdue = book.overdue ? (
             <span class="badge bg-danger">overdue</span>
         ) : null;
         rows.push(
-            <tr>
+            <tr key="{book.id}">
                 <td>
                     {overdue}
                     &nbsp;
@@ -35,7 +34,7 @@ export function CheckedOutBookList({ person }) {
                     <Button
                         variant="info"
                         size="sm"
-                        onClick={(person, book) => {
+                        onClick={() => {
                             returnBook(person, book);
                         }}
                     >
@@ -53,16 +52,16 @@ export function CheckedOutBookList({ person }) {
             </Alert>
         </>
     );
-    if (!person.bookReferences) {
+    if (!personBookReferences) {
         return noBooksMessage;
     }
-    if (!person.bookReferences.length) {
+    if (!personBookReferences.length) {
         return noBooksMessage;
     }
 
     return (
         <>
-            <span class="badge bg-secondary">{person.bookReferences.length}</span> checked out
+            <span className="badge bg-secondary">{personBookReferences.length}</span> checked out
             books &nbsp;
             <Button onClick={handleShow} variant="info" size="sm">
                 Return
