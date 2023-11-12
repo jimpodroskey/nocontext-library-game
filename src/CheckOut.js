@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Table from "react-bootstrap/Table";
+import BarcodeScanner from "./BarcodeScanner";
 
 export function CheckOut({ person, books, dataFunctions }) {
   const [show, setShow] = useState(false);
@@ -29,7 +30,7 @@ export function CheckOut({ person, books, dataFunctions }) {
           <Button
             variant="info"
             size="sm"
-            onClick={() => { dataFunctions.addBook(book, person.id);handleClose() } }
+            onClick={() => { dataFunctions.addBook(book, person.id); }}
           >
             Checkout
           </Button>
@@ -40,6 +41,8 @@ export function CheckOut({ person, books, dataFunctions }) {
 
   return (
     <>
+
+
       {checkoutButton}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header>

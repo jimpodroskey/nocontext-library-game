@@ -3,101 +3,19 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import { initialBooks, initialPeople, initialBookReferences, getBookReferencesForPerson } from "./DataManager";
 
 import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Alert from "react-bootstrap/Alert";
 
 import "./App.css";
 import { PersonSearch } from "./PersonSearch";
-import { CheckedOutBookList } from "./CheckedOutBookList";
 import { ShowAllMembers } from "./ShowAllMembers";
-import { CheckOut } from "./CheckOut";
+import BarcodeScanner from "./BarcodeScanner";
+import { PersonDisplay } from "./PersonDisplay";
 
 
 
 function PassportVerification({ person }) {
     return <>This is the form</>;
-}
-
-function SignIn({ person }) {
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
-    if (person.signedIn === true) {
-        return (
-            <>
-                <strong>{person.name}</strong> is signed in.
-            </>
-        );
-    }
-
-    return (
-        <>
-            <Button onClick={handleShow} variant="primary">
-                Sign In
-            </Button>
-            <Modal show={show} onHide={handleClose}>
-                <Form id="passport-form" noValidate>
-                    <Modal.Header>
-                        <Modal.Title>Library Card Validation</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Alert key="warning" variant="warning">
-                            Ask {person.name} for their library card
-                        </Alert>
-
-                        <Form.Check type="switch" id="has-card-switch" label="Has Card" />
-                        <Form.Label>Library Card Number</Form.Label>
-                        <Form.Control
-                            autoFocus
-                            autoComplete="off"
-                            type="text"
-                            id="searchText"
-                        />
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" onClick={handleClose}>
-                            Verify ID Number
-                        </Button>
-
-                        <Button variant="secondary" onClick={handleClose}>
-                            Cancel
-                        </Button>
-                    </Modal.Footer>
-                </Form>
-            </Modal>
-        </>
-    );
-}
-
-function PersonDisplay({ person, books, dataFunctions }) {
-    if (!person) {
-        return null;
-    }
-
-    return (
-        <>
-            <Card style={{ width: "18rem" }}>
-                <Card.Img variant="top" src={person.image} />
-                <Card.Body>
-                    <Card.Title>{person.name}</Card.Title>
-                    <Card.Text>{person.text}</Card.Text>
-                    <CheckedOutBookList person={person} books={books} dataFunctions={dataFunctions} />
-                    <SignIn person={person} />
-                    &nbsp;
-                    <br />
-                    <br />
-                    <CheckOut person={person} books={books} dataFunctions={dataFunctions} />
-                </Card.Body>
-            </Card>
-        </>
-    );
 }
 
 const fuzzySearch = (array, key, value) => {
@@ -195,6 +113,7 @@ function App() {
 
         <>
             <Container className="p-3">
+                {/* <BarcodeScanner /> */}
                 <Row>
                     <Col>
                         <h1 className="header">Welcome to the Library!</h1>

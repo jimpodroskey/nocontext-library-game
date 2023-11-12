@@ -178,7 +178,6 @@ export const initialPeople = [
     image: "images/lily.png",
     text: "I'll just go pee in the guest room",
     libraryCardId: "8740",
-    signedIn: true,
   },
   {
     id: 4,
