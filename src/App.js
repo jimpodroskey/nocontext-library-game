@@ -35,6 +35,32 @@ function App() {
 
     const dataFunctions =
     {
+        getPersonById: (id) => {
+            return people.find(book => book.id === id);
+        },
+
+
+        signInPerson: (personSigningIn, newSignInStatus = true) => {
+            setPeople(prevPeople => 
+                prevPeople.map(person => 
+                  person.id === personSigningIn.Id ? { ...person, signedIn: newSignInStatus } : person
+                )
+              );
+            personSigningIn.signedIn = newSignInStatus;
+            setPerson(personSigningIn);
+        },
+
+        verifyIdNumber: (personId, idNumber) =>
+        {
+            const person = dataFunctions.getPersonById(personId);
+            if (person && person.libraryCardId === idNumber) {
+                console.log("Verified ID number");
+                return true;
+            }
+
+            console.log("Did not verify ID number");
+            return false;
+        },
 
         //Not using this one any more since I changed it so the book
         //new who had it checked out.

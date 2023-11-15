@@ -17,7 +17,7 @@ export function PersonDisplay({ person, books, dataFunctions }) {
                     <Card.Title>{person.name}</Card.Title>
                     <Card.Text>{person.text}</Card.Text>
                     <CheckedOutBookList person={person} books={books} dataFunctions={dataFunctions} />
-                    <SignIn person={person} />
+                    <SignIn person={person} dataFunctions={dataFunctions} />
                     &nbsp;
                     <br />
                     <br />
